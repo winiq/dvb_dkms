@@ -20,16 +20,16 @@
 
 #define dprintk(__y, __z, format, arg...) do {						\
 	if (__z) {									\
-		if	((verbose >= FE_ERROR) && (verbose >= __y))			\
+		if	((verbose > FE_ERROR) && (verbose > __y))			\
 			printk(KERN_ERR "%s: " format "\n", __func__ , ##arg);		\
-		else if	((verbose >= FE_NOTICE) && (verbose >= __y))			\
+		else if	((verbose > FE_NOTICE) && (verbose > __y))			\
 			printk(KERN_NOTICE "%s: " format "\n", __func__ , ##arg);	\
-		else if ((verbose >= FE_INFO) && (verbose >= __y))			\
+		else if ((verbose > FE_INFO) && (verbose > __y))			\
 			printk(KERN_INFO "%s: " format "\n", __func__ , ##arg);		\
-		else if ((verbose >= FE_DEBUG) && (verbose >= __y))			\
+		else if ((verbose > FE_DEBUG) && (verbose > __y))			\
 			printk(KERN_DEBUG "%s: " format "\n", __func__ , ##arg);	\
 	} else {									\
-		if (verbose >= __y)							\
+		if (verbose > __y)							\
 			printk(format, ##arg);						\
 	}										\
 } while (0)
@@ -46,8 +46,8 @@
 
 #define STV090x_ADDR_OFFST(__state, __x) ((			\
 	(__state->demod) == STV090x_DEMODULATOR_1)	?	\
-		STV090x_P2_##__x :				\
-		STV090x_P1_##__x)
+		STV090x_P1_##__x :				\
+		STV090x_P2_##__x)
 
 
 #define STV090x_SETFIELD(mask, bitf, val)	(mask = (mask & (~(((1 << STV090x_WIDTH_##bitf) - 1) <<\
