@@ -126,7 +126,7 @@ static const struct stb6100_regmask stb6100_template[] = {
 //                              LD  VCO   NI   NF    K    G    F  DLB   T1 FCCK LPEN   T3  
 static char stb6100_regs[] = {0x01,0x66,0x39,0xd0,0x3c,0x3b,0xbd,0xdc,0x8f,0x0d,0xfb,0xde}; // includes default values
 
-static inline void stb6100_normalise_regs(u8 regs[])
+static __always_unused inline void stb6100_normalise_regs(u8 regs[])
 {
 	int i;
 
@@ -463,6 +463,8 @@ static int stb6100_set_frequency(struct dvb_frontend *fe, u32 frequency)
 	if (rc < 0)
 		return rc;
 
+	    msleep(2);
+
 	
 	/* Bring up tuner according to LLA 3.7 3.4.1, step 3 */
 
@@ -485,7 +487,7 @@ static int stb6100_set_frequency(struct dvb_frontend *fe, u32 frequency)
 	
         loop=0;
 	do {
-		  msleep(1);
+		  msleep(10);
                   loop++;
 		  rc = stb6100_read_reg(state, STB6100_LD);
 		  if (rc < 0) { dprintk(verbose, FE_ERROR, 1, "read lock bit failed"); return rc;}
